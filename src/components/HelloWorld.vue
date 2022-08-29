@@ -1,58 +1,132 @@
+
 <template>
+<h1>{{ msg }}</h1>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+    <div class="joeurs" v-if="tab==false">
+   <div class="joueur_1" >
+    joueur 1 
+    <label for="pseudo">choisissez votre pseudo:</label>
+    <input type="text" name="" id="pseudo"/> <br>
+     <p>
+       <label for="symbole">choisissez votre symbole:</label><br />
+
+       <select v-model="s1">
+           <option v-for="(symbole1) of selectionp1" :value="symbole1" :key="symbole1">{{symbole1}}</option>        
+       </select>
+   </p>
+    </div> 
+
+   <div class="joueur_2" >
+    joueur 2 
+    <label for="pseudo1">choisissez votre pseudo:</label>
+    <input type="text" name="" id="pseudo1"/> <br>
+     <p>
+       <label for="symbole">choisissez votre symbole:</label><br />
+
+       <select v-model="s2">
+        
+           <option v-for="(symbole2, index) of selectionp2" :value="symbole2" :key="index">{{symbole2}}</option>  
+       </select>
+   </p>
+   </div>
+   <p> {{s1}} VS {{s2}}</p>
+   </div>
+   
+   <div class="board" v-if= "tab!=false">
+   <div class="case" v-for="i in 9" :data-index="i" :key="i" v-on:click="gestionClicCase($event)"></div>
+</div>
+</div>
+
+
+   <input type="button" value="règles">
+   <input type="button" value="let's play">
+   <input type="button" value="chgt page" v-on:click="gestionChgtPage()">
+  
 </template>
 
 <script>
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data() {
+    return {
+      tab: false,
+      s1: undefined,
+      s2: undefined,
+      symboles: ['','♔', '♕', '♖', '♗', '♘', '♙']
+       
+    }
+  },
+ computed: {
+ 
+    selectionp1(){
+      let v = [...this.symboles]
+      if(this.s2){
+        let s2 = this.s2
+        v.splice(v.findIndex((elt) => elt ==s2), 1)
+      }
+     return v
+    },
+    
+    selectionp2(){
+      let t = [...this.symboles]
+      if(this.s1){
+        let s1 = this.s1
+        t.splice(t.findIndex((elt) => elt ==s1), 1)
+      } 
+      
+     return t
+    }
+    
+  },
+  methods: {
+gestionClicCase(event){
+  this.s1 = '♔'
+  event.target.innerHTML=this.s1
+},
+gestionChgtPage(){
+let tableau = [];
+  for (let index = 1; index <= 100; index++) if (tableau.filter((index) => index % 2 != 0)) 
+  {
+    this.tab = true;}else{this.tab = false;}
+   console.log(tableau.index) 
+}
+
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+
+.hello{
+  display: flex;
+
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.joueurs{  
+display: flex;
+  width:100vw;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+.joueur_1{
+  justify-content: center;
+}  
+ .board{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 270px;
+    margin: auto;
+    border: 1px solid black;  
+    }
+    .case{ 
+      margin-top: auto;
+      border: 1px solid black;
+      height: 90px;    
+       background-color: rgb(111, 198, 134);
+    }
+    .case:hover{
+      background-color: rgb(55, 198, 100);
+    }
+
 </style>

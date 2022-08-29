@@ -29,13 +29,14 @@
        </select>
    </p>
    </div>
-   <p> {{this.joueurs[1]}} VS {{this.joueurs[0]}}</p>
+   <div class="vs"> {{this.joueurs[1]}} VS {{this.joueurs[0]}}</div>
    </div>
    
    <div class="board" v-if= "tab!=false">
    <div class="case" v-for="i in 9" :data-index="i" :key="i" v-on:click="gestionClicCase($event)"></div>
-</div>
-<p> {{this.joueurs[1]}} VS {{this.joueurs[0]}}</p>
+   <div class="vs2"> {{this.joueurs[1]}} VS {{this.joueurs[0]}}</div>
+  </div>
+
 </div>
 
 
@@ -64,7 +65,8 @@ export default {
     }
   },
  computed: {
- 
+/* cette section contrôle le choix des symboles
+en retirant du menu déroulant de chaque celui choisi par l'adversaire*/ 
     selectionp1(){
       let v = [...this.symboles]
       if(this.joueurs[1]){
@@ -86,13 +88,14 @@ export default {
     
   },
   methods: {
+    /* cette fonction permet d'afficher alternativement les symboles de chaque joueurs*/
 gestionClicCase(event){ 
   let val= this.tourJeu %2 
   event.target.innerHTML=this.joueurs[val];
   this.tourJeu= this.tourJeu + 1;
-
 },
-
+/*cette fonction permet via le bouton chgt de page de passer de la page d'acceuil
+à la page de jeu*/
 gestionChgtPage(){
 let tableau = [];
   for (let index = 1; index <= 100; index++)
@@ -102,7 +105,6 @@ let tableau = [];
   { this.tab = true;}
   else
   {this.tab = false;}
-   console.log(tableau[this.index0]) 
    this.index0=this.index0+1;
 }
 
@@ -114,10 +116,11 @@ let tableau = [];
 
 .hello{
   display: flex;
-
 }
 .joueurs{  
-display: flex;
+display: inline-flex;
+justify-content: space-around;
+align-content: center;
   width:100vw;
 }
 
@@ -132,12 +135,17 @@ display: flex;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: xx-large;
       border: 1px solid black;
       height: 90px;    
       background-color: rgb(111, 198, 134);
     }
     .case:hover{
       background-color: rgb(55, 198, 100);
+    }
+    .vs{
+      display: flex;
+      text-align: center;
     }
 
 </style>

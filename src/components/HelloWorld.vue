@@ -65,8 +65,8 @@ export default {
     }
   },
  computed: {
-/* cette section contrôle le choix des symboles
-en retirant du menu déroulant de chaque celui choisi par l'adversaire*/ 
+/* ces fonctions contrôlent le choix des symboles
+en retirant du menu déroulant celui choisi par l'adversaire*/ 
     selectionp1(){
       let v = [...this.symboles]
       if(this.joueurs[1]){
